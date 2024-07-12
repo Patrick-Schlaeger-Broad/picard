@@ -759,8 +759,11 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultilevelMetri
 
             // compute the coverage value such that 80% of target bases have better coverage than it i.e. 20th percentile
             // this roughly measures how much we must sequence extra such that 80% of target bases have coverage at least as deep as the current mean coverage
-            fractionUnder = 0.2
-            metrics.MINI_FOLD_X_BASE_PENALTY = metrics.MEAN_TARGET_COVERAGE / highQualityDepthHistogram.getPercentile(fractionUnder)
+            fractionUnder = 0.2;
+            // make the fractionUnder variable, which currently is defined within the code, and make it an input for future wdl when testing
+            // it makes the most sense to add a loop of some sort, or an interation of intervals(which requires the creation of another general interval list based on the bam file.
+            // the loop should create a set of histograms of the intervals and use that instead of 'highQualityDepthHistogram' in the following line
+            metrics.MINI_FOLD_X_BASE_PENALTY = metrics.MEAN_TARGET_COVERAGE / highQualityDepthHistogram.getPercentile(fractionUnder);
             metrics.FOLD_80_BASE_PENALTY = metrics.MEAN_TARGET_COVERAGE / highQualityDepthHistogram.getPercentile(0.2);
             metrics.ZERO_CVG_TARGETS_PCT = zeroCoverageTargets / (double) allTargets.getIntervals().size();
 
